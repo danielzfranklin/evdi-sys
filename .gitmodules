@@ -1,0 +1,3 @@
+[submodule "src/vendor/evdi"]
+	path = src/vendor/evdi
+	url = git@github.com:DisplayLink/evdi.git
