@@ -1,13 +1,13 @@
 [package]
 name = "evdi-sys"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Daniel Franklin <daniel@danielzfranklin.org>"]
 edition = "2018"
 license = "MIT"
 description = "Low level bindings for evdi"
 repository = "https://github.com/danielzfranklin/evdi-sys"
 keywords = ["evdi", "displaylink", "ffi", "bindings", "linux"]
-categories = ["os::linux", "external-ffi-bindings"]
+categories = ["os::linux-apis", "external-ffi-bindings"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
