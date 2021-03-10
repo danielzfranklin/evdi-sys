@@ -20,10 +20,56 @@ pub const EVDI_STATUS_UNRECOGNIZED: c_uint = evdi_device_status_UNRECOGNIZED;
 pub const EVDI_STATUS_NOT_PRESENT: c_uint = evdi_device_status_NOT_PRESENT;
 
 include!("./bindings.rs");
+include!("./wrapper_bindings.rs");
 
 #[cfg(test)]
 mod test {
     use super::*;
+    use std::os::raw::{c_char, c_void};
+    use std::sync::mpsc::{channel, Sender};
+    use std::mem::{transmute, forget};
+    use std::ffi::CStr;
+
+    extern "C" fn noop_wrapper_log_cb(_user_data: *mut c_void, _msg: *const c_char) {}
+
+    #[test]
+    fn can_register_wrapper_log_cb() {
+        unsafe {
+            wrapper_evdi_set_logging(wrapper_log_cb {
+                function: Some(noop_wrapper_log_cb),
+                user_data: 0 as *mut c_void,
+            })
+        }
+    }
+
+    extern "C" fn channel_wrapper_log_cb(user_data: *mut c_void, msg_ptr: *const c_char) {
+        let send: &Sender<String> = unsafe { transmute(user_data) };
+        let msg = unsafe { CStr::from_ptr(msg_ptr) }
+            .to_str().unwrap()
+            .to_owned();
+        send.send(msg).unwrap();
+    }
+
+    #[test]
+    fn wrapper_log_cb_receives_at_least_one_message() {
+        let (send, recv) = channel::<String>();
+
+        unsafe {
+            wrapper_evdi_set_logging(wrapper_log_cb {
+                function: Some(channel_wrapper_log_cb),
+                user_data: transmute(&send),
+            });
+            forget(send);
+        }
+
+        // Do something that will generate a log msg
+        unsafe { evdi_open(0); }
+
+        // Block until our callback is called once
+        let msg = recv.recv().unwrap();
+
+        assert!(msg.starts_with("Opened /dev/dri/card0"));
+    }
 
     #[test]
     fn evdi_check_device_for_not_present() {
