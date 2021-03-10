@@ -4,6 +4,17 @@
 
 use std::os::raw::c_uint;
 
+// NOTE: Copied from <evdi_lib.c>, MUST be kept in sync.
+
+/// A kernel module is compatible if its major version is equal to
+/// [EVDI_MODULE_COMPATIBILITY_VERSION_MAJOR] and its minor version is >= to
+/// [EVDI_MODULE_COMPATIBILITY_VERSION_MINOR]
+pub const EVDI_MODULE_COMPATIBILITY_VERSION_MAJOR: u32 = 1;
+/// A kernel module is compatible if its major version is equal to
+/// [EVDI_MODULE_COMPATIBILITY_VERSION_MAJOR] and its minor version is >= to
+/// [EVDI_MODULE_COMPATIBILITY_VERSION_MINOR]
+pub const EVDI_MODULE_COMPATIBILITY_VERSION_MINOR: u32 = 9;
+
 pub const EVDI_STATUS_AVAILABLE: c_uint = evdi_device_status_AVAILABLE;
 pub const EVDI_STATUS_UNRECOGNIZED: c_uint = evdi_device_status_UNRECOGNIZED;
 pub const EVDI_STATUS_NOT_PRESENT: c_uint = evdi_device_status_NOT_PRESENT;
