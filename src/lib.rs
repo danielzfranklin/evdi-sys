@@ -17,6 +17,14 @@ mod test {
     use super::*;
 
     #[test]
+    fn evdi_check_device_for_not_present() {
+        let status = unsafe {
+            evdi_check_device(42)
+        };
+        assert_eq!(status, EVDI_STATUS_NOT_PRESENT)
+    }
+
+    #[test]
     fn is_correct_version() {
         let mut version = evdi_lib_version {
             version_major: -1,
