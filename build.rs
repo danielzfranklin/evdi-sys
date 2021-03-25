@@ -7,5 +7,5 @@ fn main() {
         ].iter())
         .include("src/vendor/evdi/module");
 
-    build.compile("foo");
+    build.compile("libevdi");
 }
