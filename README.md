@@ -1,4 +1,6 @@
-![Crates.io](https://img.shields.io/crates/v/evdi-sys)
+# evdi-sys
+
+[![Crates.io](https://img.shields.io/crates/v/evdi-sys)](https://crates.io/crates/evdi-sys)
 
 Low level bindings to [evdi](https://github.com/DisplayLink/evdi), 
 a program for managing virtual displays on linux.
